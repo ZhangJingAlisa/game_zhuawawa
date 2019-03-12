@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body onload="test()">
+<h1>tets</h1>
+</body>
+<script type="text/javascript">
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function test(){
+	var token = GetQueryString("token")
+	if(token){
+		alert(token);
+	}else{
+		alert("no");
+		window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx00c48cc6dad5768a&redirect_uri=http://back.520ban.com/createUserAndLoginFlow&response_type=code&scope=snsapi_userinfo"; 
+	}
+}
+
+</script>
+</html>

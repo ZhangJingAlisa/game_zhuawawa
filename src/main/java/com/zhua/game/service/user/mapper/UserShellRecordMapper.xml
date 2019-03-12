@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.user.mapper.UserShellRecordMapper">
+
+   <insert id="saveUserShellRecordEntity" parameterType="com.zhua.game.entity.UserShellRecordEntity">
+      insert into tb_shell_record (id,user_id,shell_time) value (#{id},#{userId},#{shellTime});
+   </insert>
+
+   <select id="getUserShellRecordEntityBy" resultType="com.zhua.game.entity.UserShellRecordEntity">
+      select id,user_id as userId,shell_time as shellTime from tb_shell_record where user_id = #{userId} and shell_time = #{shellTime}
+   </select>
+
+
+</mapper>

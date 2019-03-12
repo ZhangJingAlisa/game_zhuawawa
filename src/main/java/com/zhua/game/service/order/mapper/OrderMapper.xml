@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.order.mapper.OrderMapper">
+
+    <insert id="saveOrderEntity" parameterType="com.zhua.game.entity.OrderEntity">
+       insert into tb_order (id,user_id,goods_id,goods_name,goods_image,status,address,contact_name,contact_phone,ctime,utime,tag,type)
+       values
+       (#{id},#{userId},#{goodsId},#{goodsName},#{goodsImage},#{status},#{address},#{contactName},#{contactPhone},#{ctime},#{utime},#{tag},#{type})
+    </insert>
+    
+    <update id="updateOrderEntity" parameterType="com.zhua.game.entity.OrderEntity">
+        update tb_order
+        <set>
+           status = #{status},
+           utime = now(),
+          address = #{address},
+          contact_name = #{contactName},
+          contact_phone = #{contactPhone},
+        </set>
+        where id = #{id}
+    </update>
+    
+    <select id="listOrderEntityByUserId"  resultType="com.zhua.game.entity.OrderEntity">
+      select id,user_id as userId,goods_id as goodsId,goods_name as goodsName,goods_image as goodsImage,status,address,
+     contact_name as contactName, contact_phone as contactPhone,ctime,utime,type from tb_order
+      where user_id = #{userId} order by ctime desc limit #{start},#{rows}
+    </select>
+    
+    <select id="getOrderEntityById"  resultType="com.zhua.game.entity.OrderEntity">
+      select id,user_id as userId,goods_id as goodsId,goods_name as goodsName,goods_image as goodsImage,status,address,
+     contact_name as contactName, contact_phone as contactPhone,ctime,utime,type from tb_order
+      where id = #{id} 
+    </select>
+    
+    <select id="countOrderEntityStatusByUserId" resultType="int">
+      select count(1) from tb_order
+      where user_id = #{userId} and status = #{status}
+    </select>
+
+</mapper>

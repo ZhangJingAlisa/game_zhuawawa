@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.user.mapper.UserRecommendMapper">
+
+    <insert id="saveUserRecommendEntity" parameterType="com.zhua.game.entity.UserRecommendEntity">
+        insert into tb_user_recommend (id,user_id,recommend_user_id,ctime,utime)
+        values
+        (#{id},#{userId},#{recommendUserId},#{ctime},#{utime})
+    </insert>
+
+    <select id="getUserRecommendEntityByRecommendUserId" resultType="com.zhua.game.entity.UserRecommendEntity">
+       select id,user_id as userId,
+       recommend_user_id as recommendUserId ,ctime,utime from tb_user_recommend where recommend_user_id = #{recommendUserId}
+    </select>
+    
+    <select id="getUserRecommendEntityByRecommendUserIdAndUserId" resultType="com.zhua.game.entity.UserRecommendEntity">
+       select id,user_id as userId,
+       recommend_user_id as recommendUserId ,ctime,utime from tb_user_recommend
+        where recommend_user_id = #{recommendUserId}
+        and user_id = #{userId}
+    </select>
+	
+	<select id="queryUserRecommendRanking" resultType="com.zhua.game.service.user.vo.UserRecommendVO">
+	   select t.id as userId,t.name,t.image,t.people as people,ifnull((select sum(p.money) from tb_user_bonus p where p.user_id = t.id),0) as money from (
+		select u.id,u.`name` , u.`image`,u.ctime,count(r.recommend_user_id) as people 
+		from tb_user_recommend r INNER JOIN  tb_user u on u.id = r.user_id 
+		    GROUP BY  r.user_id ) t 
+		order by t.people desc , t.ctime limit 5
+	</select>
+	
+	<select id="queryUserRecommendVOByUserId" resultType="com.zhua.game.service.user.vo.UserRecommendVO">
+	    select u.id as userId,u.`name` , u.`image`,u.ctime,count(r.recommend_user_id) as people ,
+	    ifnull((select sum(p.money) from tb_user_bonus p where p.user_id = u.id and p.status = 0),0) as money,
+	    ifnull((select sum(p.money) from tb_user_bonus p where p.user_id = u.id),0) as moneyAll
+         from tb_user_recommend r INNER JOIN  tb_user u on u.id = r.user_id where r.user_id = #{userId}
+       GROUP BY  r.user_id 
+	</select>
+
+
+
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.game.mapper.GameTokenMapper">
+
+    <select id="saveGameTokenEntity" parameterType="com.zhua.game.entity.GameTokenEntity">
+       insert into tb_game_token(id,status,user_id,goods_id,ctime,utime)
+       values
+       (#{id},#{status},#{userId},#{goodsId},#{ctime},#{utime})
+    </select>
+    
+    <update id="updateGameTokenEntity">
+      update tb_game_token
+      <set>
+         status = #{status},utime = now(),
+      </set>
+      where id = #{id}
+    </update>
+    
+    <select id="getGameTokenEntity" resultType="com.zhua.game.entity.GameTokenEntity">
+       select id,status,user_id as userId,goods_id as goodsId,ctime,utime from tb_game_token where id = #{id}
+    </select>
+    
+
+
+</mapper>

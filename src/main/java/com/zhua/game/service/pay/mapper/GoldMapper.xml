@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.pay.mapper.GoldMapper">
+
+   <select id="listGoldEntity" resultType="com.zhua.game.entity.GoldEntity">
+     select id,gold_number as goldNumber ,price,url,ctime,utime from tb_gold order by price 
+   </select>
+   
+   <select id="getGoldEntityById" resultType="com.zhua.game.entity.GoldEntity">
+      select id,gold_number as goldNumber ,price,url,ctime,utime from tb_gold where id = #{id}
+   </select>
+
+</mapper>

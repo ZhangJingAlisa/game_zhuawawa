@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.pay.mapper.UserGoldPayMapper">
+
+    <insert id="saveUserGoldPayEntity" parameterType="com.zhua.game.entity.UserGoldPayEntity">
+      insert into tb_user_gold_pay
+      (id,user_id,code,gold_numbner,status,ctime,utime,price)
+      values
+      (#{id},#{userId},#{code},#{goldNumber},#{status},#{ctime},#{utime},#{price})
+    </insert>
+    
+    <select id="getUserGoldPayEntityByCode" resultType="com.zhua.game.entity.UserGoldPayEntity">
+         select id,user_id as userId,code,gold_numbner as goldNumber,status,ctime,utime,price from tb_user_gold_pay where code = #{code}
+    </select>
+
+   <update id="updateUserGoldPayEntity" parameterType="com.zhua.game.entity.UserGoldPayEntity">
+     update tb_user_gold_pay
+     <set>
+        status = #{status},
+        utime = now(),
+     </set>
+     where id = #{id}
+   </update>
+
+   <select id="countUserGoldPayEntityByUserId" resultType="int">
+      select ifnull(sum(price),0) from `tb_user_gold_pay` where user_id = #{userId} and `status`  = 1
+   </select>
+
+</mapper>

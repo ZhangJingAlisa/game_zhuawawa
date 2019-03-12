@@ -1,0 +1,304 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.game.cn</groupId>
+  <artifactId>gameservice</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+	<name>gameservice</name>
+	<url>http://www.izhaowo.com</url>
+	<developers>
+		<developer>
+			<name>liuyjiang</name>
+			<email>liuyijiang@izhaowo.com</email>
+		</developer>
+	</developers>
+
+	<properties>
+		<maven.nexus.host>http://pm.rd.izhaowo.com:20020/nexus</maven.nexus.host>
+		<java.version>1.8</java.version>
+	</properties>
+
+<!-- 	<repositories> -->
+<!-- 		<repository> -->
+<!-- 			<id>nexus</id> -->
+<!-- 			<name>Team Nexus Repository</name> -->
+<!-- 			<url>${maven.nexus.host}/content/groups/public</url> -->
+<!-- 		</repository> -->
+<!-- 	</repositories> -->
+
+<!-- 	<pluginRepositories> -->
+<!-- 		<pluginRepository> -->
+<!-- 			<id>nexus</id> -->
+<!-- 			<name>Team Nexus Repository</name> -->
+<!-- 			<url>${maven.nexus.host}/content/groups/public</url> -->
+<!-- 		</pluginRepository> -->
+<!-- 	</pluginRepositories> -->
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<release.resources>${project.basedir}/resources/dev</release.resources>
+				<production>false</production>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<release.resources>${project.basedir}/resources/test</release.resources>
+				<production>false</production>
+			</properties>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<release.resources>${project.basedir}/resources/pro</release.resources>
+				<production>true</production>
+			</properties>
+		</profile>
+	</profiles>
+
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.3.7.RELEASE</version>
+	</parent>
+
+	<dependencies>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId> <!-- 去掉spring-boot-starter-web 中 slf4j依赖 -->
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+		<!-- 使用log4j -->
+		<!-- 日志级别顺序 TRACE, DEBUG, INFO, WARN, ERROR, FA T AL, OFF -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.cloudhopper.proxool</groupId>
+			<artifactId>proxool</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
+		<!-- 对mybatis 的支持 -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!-- 基础代码 -->
+		<dependency>
+			<groupId>com.izhaowo.code.base</groupId>
+			<artifactId>izhaowoCodeBase</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- 对spring的一些封装工具类 -->
+		<dependency>
+			<groupId>com.izhaowo.code.spring.plus</groupId>
+			<artifactId>izhaowoCodeSpringPlus</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- 对spring-cloud的一些封装 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.izhaow.distributed.code</groupId> -->
+<!-- 			<artifactId>izhaowoDistributedCode</artifactId> -->
+<!-- 			<version>0.0.1-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.35</version>
+		</dependency>
+
+		<!-- 自动添加一些url 健康 状态 监控 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- 分布式注册中心使用 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.cloud</groupId> -->
+<!-- 			<artifactId>spring-cloud-starter-eureka</artifactId> -->
+<!-- 		</dependency> -->
+
+		<!-- 客户端负载均衡 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.cloud</groupId> -->
+<!-- 			<artifactId>spring-cloud-starter-ribbon</artifactId> -->
+<!-- 		</dependency> -->
+
+		<!-- 容错保护机制 hystrix 断路控制 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.cloud</groupId> -->
+<!-- 			<artifactId>spring-cloud-starter-hystrix</artifactId> -->
+<!-- 		</dependency> -->
+
+		<!-- 声明式服务调用 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.cloud</groupId> -->
+<!-- 			<artifactId>spring-cloud-starter-feign</artifactId> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.izhaowo.user.service.rpc</groupId> -->
+<!-- 			<artifactId>izhaowoUserServiceRpc</artifactId> -->
+<!-- 			<version>1514361723589</version> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.izhaowo.wedding.service.rpc</groupId> -->
+<!-- 			<artifactId>izhaowoWeddingServiceRpc</artifactId> -->
+<!-- 			<version>1508921824178</version> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.izhaowo.worker.service.rpc</groupId> -->
+<!-- 			<artifactId>izhaowoWorkerServiceRpc</artifactId> -->
+<!-- 			<version>1514363191037</version> -->
+<!-- 		</dependency> -->
+
+<dependency>
+    <groupId>com.thoughtworks.xstream</groupId>
+    <artifactId>xstream</artifactId>
+</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Brixton.SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+
+	<build>
+		<finalName>gameservice</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- 打包成可执行jar -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- RPC打包插件 -->
+			<plugin>
+				<groupId>com.izhaowo.rpcpacking</groupId>
+				<artifactId>rpcpacking-maven-plugin</artifactId>
+				<version>1.0.7</version>
+			</plugin>
+
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>${release.resources}</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>assets</directory>
+				<includes>
+					<include>**/*.js</include>
+					<include>**/*.css</include>
+					<include>**/*.html</include>
+					<include>**/*.txt</include>
+					<include>**/*.gif</include>
+					<include>**/*.eot</include>
+					<include>**/*.svg</include>
+					<include>**/*.ttf</include>
+					<include>**/*.woff</include>
+				</includes>
+			</resource>
+		</resources>
+
+
+	</build>
+</project>

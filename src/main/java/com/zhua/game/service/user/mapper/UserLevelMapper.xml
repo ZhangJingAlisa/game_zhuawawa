@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.user.mapper.UserLevelMapper">
+
+    <insert id="saveUserLevelEntity" parameterType="com.zhua.game.entity.UserLevelEntity">
+       insert into tb_user_level (id
+,user_id
+,level
+,pay_count
+,probability
+,bizhong
+,ctime
+,utime) values (#{id},#{userId},#{level},#{payCount},#{probability},#{bizhong},#{ctime},#{utime})
+    </insert>
+
+    <update id="updateUserLevelEntity" parameterType="com.zhua.game.entity.UserLevelEntity">
+      update tb_user_level
+      <set>
+         <if test="level != 0">
+            level = #{level},
+         </if>
+         <if test="payCount != 0">
+            pay_count = #{payCount},
+         </if>
+          <if test="probability != 0">
+            probability = #{probability},
+         </if>
+         bizhong = #{bizhong},
+         utime = now(),
+      </set>
+      where id = #{id}
+    </update>
+    
+    <select id="getUserLevelEntityByUserId" resultType="com.zhua.game.entity.UserLevelEntity">
+      select id
+,user_id as userId
+,level
+,pay_count as payCount
+,probability
+,bizhong
+,ctime
+,utime from tb_user_level where user_id = #{userId}
+    </select>
+
+
+</mapper>

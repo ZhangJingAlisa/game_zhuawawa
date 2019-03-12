@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.goods.mapper.GoodsMapper">
+
+    <select id="saveGoodsEntity" parameterType="com.zhua.game.entity.GoodsEntity">
+       insert into tb_goods(id,name,tag,gold,memo,image,show_image,ctime,utime,type,price,probability,buy,status)
+       values
+       (#{id},#{name},#{tag},#{gold},#{memo},#{image},#{showImage},#{ctime},#{utime},#{type},#{price},#{probability},#{buy},#{status})
+    </select>
+    
+    <select id="getGoodsEntityById" resultType="com.zhua.game.entity.GoodsEntity">
+       select id,name,tag,gold,memo,image,show_image as showImage, ctime,utime,type,price,probability,buy,status from tb_goods where id = #{id} and status = 0
+    </select>
+    
+     <select id="listGoodsEntityByTypeAll" resultType="com.zhua.game.entity.GoodsEntity">
+        select id,name,tag,gold,memo,image,show_image as showImage, ctime,utime ,type ,price,probability,buy,status from tb_goods where status = 0 and  type = #{type} order by  ctime desc , gold 
+    </select>
+    
+    <select id="listGoodsEntityByPage" resultType="com.zhua.game.entity.GoodsEntity">
+     select id,name,tag,gold,memo,image,show_image as showImage, ctime,utime,type,price,probability,buy,status from tb_goods 
+     where 1=1
+     <if test="type != -1">
+       and type  = #{type}
+     </if>
+     <if test="status != -1">
+       and status  = #{status}
+     </if>
+     order by ctime desc limit #{start} , #{rows}
+    </select>
+    
+   <update id="updateGoodsStatus">
+      update tb_goods
+      <set>
+         status = #{status},
+      </set>
+      where id = #{id}
+   </update>
+
+   <delete id="deleteGoodsById">
+      delete from tb_goods where id = #{id}
+   </delete>
+
+
+</mapper>

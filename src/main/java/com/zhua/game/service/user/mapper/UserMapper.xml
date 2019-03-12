@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhua.game.service.user.mapper.UserMapper">
+
+
+     <insert id="saveUserEntity" parameterType="com.zhua.game.entity.UserEntity">
+        insert into tb_user 
+        (id,open_id,name,image,gold_number,ctime,utime)
+        values
+        (#{id},#{openId},#{name},#{image},#{goldNumber},#{ctime},#{utime})
+     </insert>
+     
+     <select id="getUserEntityById" resultType="com.zhua.game.entity.UserEntity">
+        select id,open_id as openId,name,image,gold_number as goldNumber,ctime,utime from tb_user where id = #{id}
+     </select>
+     
+      <select id="getUserEntityByOpenId" resultType="com.zhua.game.entity.UserEntity">
+        select id,open_id as openId,name,image,gold_number as goldNumber,ctime,utime from tb_user where open_id = #{openId}
+     </select>
+     
+     
+     <update id="updateUserEntity" parameterType="com.zhua.game.entity.UserEntity">
+        update tb_user
+        <set>
+           <if test=" name != null">
+              name = #{name},
+           </if>
+           <if test=" image != null">
+               image = #{image},
+           </if>
+           <if test=" goldNumber != null">
+             gold_number  = #{goldNumber},
+           </if>
+           utime = now(),
+        </set>
+        where id = #{id}
+     </update>
+
+     <select id="checkUser" resultType="int">
+		select count(1) from ( select DISTINCT(o.user_id) from  tb_order o  where
+		  o.type  = 1 and o.status != 0  and o.ctime <![CDATA[ > ]]> '2018-01-26 20:00:00'
+		   and o.`ctime` <![CDATA[ <=  ]]> '2018-01-28 00:00:00' ) t
+         where t.user_id = #{userId}
+     </select>
+
+</mapper>
